@@ -26,3 +26,31 @@ def convert_avif_images_in_directory(directory):
 if __name__ == "__main__":
     directory = "./"  # Specify the directory containing AVIF images
     convert_avif_images_in_directory(directory)
+++++++++++++++++++++
+from PIL import Image
+import os
+
+# Function to convert JFIF to JPG
+def convert_jfif_to_jpg(input_path, output_path):
+    try:
+        img = Image.open(input_path)
+        if img.format == 'JPEG':
+            img.save(output_path, 'JPEG')
+            print(f"Converted {input_path} to {output_path}")
+        else:
+            print(f"Skipping {input_path}, not a JFIF image.")
+    except Exception as e:
+        print(f"Error converting {input_path}: {e}")
+
+# Function to iterate through files in a directory
+def convert_jfif_images_in_directory(directory):
+    for filename in os.listdir(directory):
+        if filename.endswith(".jpg") or filename.endswith(".jpeg"):
+            input_path = os.path.join(directory, filename)
+            output_path = os.path.join(directory, filename[:-5] + '_converted.jpg')  # Changing the extension
+            convert_jfif_to_jpg(input_path, output_path)
+
+# Example usage:
+if __name__ == "__main__":
+    directory = "./"  # Specify the directory containing JFIF images
+    convert_jfif_images_in_directory(directory)
